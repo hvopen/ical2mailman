@@ -17,7 +17,8 @@ Installation
 
 On an Ubuntu system:
 
- - sudo apt-get install python-mechanize python-icalendar python-yaml
+ - sudo apt-get install python-icalendar python-yaml
+ - sudo pip install robobrowser
  - cp config.yaml.sample config.yaml
  - set the mailman admin password in config.yaml
  - ./ical2mailman
