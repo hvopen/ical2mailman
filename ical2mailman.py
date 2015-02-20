@@ -16,8 +16,8 @@
 
 import datetime
 import icalendar
-import mechanize
 import re
+import robobrowser
 import time
 import urllib2
 import yaml
@@ -71,22 +71,23 @@ def update_mailman(meetings, passwd=""):
     The text for this is hardcoded based on our needs, but it's at least
     a pretty good example of how to do it.
     """
-    br = mechanize.Browser()
+    br = robobrowser.RoboBrowser()
     br.open("https://mhvlug.org/cgi-bin/mailman/admin/mhvlug/nondigest")
-    br.select_form(name='f')
-    br['adminpw'] = passwd
-    br.submit()
+    form = br.get_form(action='/cgi-bin/mailman/admin/mhvlug/nondigest')
+    form['adminpw'].value = passwd
+    br.submit_form(form)
 
     # Now we are logged in
     br.open("https://mhvlug.org/cgi-bin/mailman/admin/mhvlug/nondigest")
-    br.select_form(nr=0)
-    cur_footer = br['msg_footer'].split("Upcoming Meetings")[0]
+    form = br.get_forms()[0]
+    cur_footer = form['msg_footer'].value.split("Upcoming Meetings")[0]
     cur_footer += ("Upcoming Meetings (6pm - 8pm)                         "
                    "Vassar College *\n")
     for meeting in meetings:
         cur_footer += meeting + "\n"
-    br['msg_footer'] = cur_footer
-    br.submit()
+    form['msg_footer'].value = cur_footer
+
+    br.submit_form(form)
 
 
 def load_conf():
