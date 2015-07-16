@@ -56,7 +56,7 @@ def next_meetings(count=3):
         if re.search('meetings', event['URL']):
             meeting = ("  %s - %s" % (
                 dt.strftime("%b %e"), event['SUMMARY'].title()))
-            if dt.month == 7 or dt.month == 8:
+            if dt.month == 7:
                 meeting += " @ Lourdes"
             meetings.append(meeting)
             found += 1
